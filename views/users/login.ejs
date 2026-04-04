@@ -1,0 +1,68 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="login-page-bg">
+
+  <div class="container">
+
+    <div class="row justify-content-center align-items-center login-container">
+
+      <div class="col-lg-4 col-md-6">
+
+        <div class="card login-card shadow-lg">
+
+          <div class="card-body">
+
+            <h3 class="text-center mb-4">Login</h3>
+
+            <form action="/login" method="POST" class="needs-validation" novalidate>
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input 
+                  name="username" 
+                  id="username"  
+                  type="text" 
+                  class="form-control" 
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input 
+                  name="password" 
+                  id="password"  
+                  type="password" 
+                  class="form-control" 
+                  required
+                />
+              </div>
+
+              <div class="text-center mt-4">
+                <button class="btn login-btn">
+                  Login
+                </button>
+              </div>
+
+              <!-- ✅ Add this BELOW login button -->
+<div class="text-center mt-3">
+  <a href="/auth/google">
+    <button type="button" class="btn btn-danger w-100">
+      Login with Google
+    </button>
+  </a>
+</div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

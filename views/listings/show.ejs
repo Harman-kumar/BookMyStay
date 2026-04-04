@@ -1,0 +1,289 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="show-page-bg">
+
+<div class="container mt-4">
+
+  <!-- TITLE -->
+  <div class="text-center mb-4 text-white">
+    <h2 class="fw-bold"><%= listing.title %></h2>
+  </div>
+
+  <!-- LISTING CARD -->
+  <div class="row justify-content-center">
+    <div class="card col-lg-7 show-card listing-card shadow-lg">
+
+      <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
+
+      <div class="card-body">
+
+        <p class="text-muted mb-2">
+          <i>Owned by: <b><%= listing.owner.username %></b></i>
+        </p>
+
+        <p class="card-text">
+          <%= listing.description %>
+        </p>
+
+        <h5 class="text-danger fw-bold">
+          ₹ <%= listing.price.toLocaleString("en-IN") %> / month
+        </h5>
+
+        <p class="card-text">
+          📍 <%= listing.location %>, <%= listing.country %>
+        </p>
+
+        <p><strong>Phone:</strong> <%= listing.phoneNumber %></p>
+        
+
+  <!-- OWNER BUTTONS -->
+  <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
+
+  <div class="text-center mt-4">
+
+    <a href="/listings/<%= listing._id %>/edit" class="btn btn-warning me-3">
+      Edit
+    </a>
+
+    <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE" style="display:inline;">
+      <button class="btn btn-danger">
+        Delete
+      </button>
+    </form>
+
+  </div>
+
+  <% } %>
+<!-- map -->
+ <div id="map"></div>
+
+      </div>
+    </div>
+  </div>
+
+<!-- booking -->
+ <div class="booking-section mt-5">
+
+<h3 class="mb-3">Book this Property</h3>
+
+<div class="booking-card">
+
+<form id="bookingForm">
+<div class="mb-3">
+<label class="form-label">Your Name</label>
+<input 
+type="text"
+name="name"
+class="form-control"
+placeholder="Enter your name"
+required
+>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Phone Number</label>
+<input 
+type="text"
+name="phone"
+class="form-control"
+placeholder="Enter phone number"
+required
+>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Message</label>
+<textarea
+name="message"
+class="form-control"
+rows="3"
+placeholder="Any request..."
+></textarea>
+</div>
+
+<button type="button" onclick="bookNow()" class="btn btn-dark w-100">
+Pay & Book
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+  <hr class="my-5 text-white">
+
+  <!-- REVIEW FORM -->
+  <% if(currUser) { %>
+
+  <div class="row justify-content-center">
+
+    <div class="col-lg-6 review-form-card">
+
+      <h4 class="mb-3">Leave a Review</h4>
+
+      <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
+
+        <div class="mb-3">
+
+          <label class="form-label">Rating</label>
+
+          <fieldset class="starability-slot">
+
+            <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked />
+
+            <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+            <label for="first-rate1">1 star</label>
+
+            <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+            <label for="first-rate2">2 stars</label>
+
+            <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+            <label for="first-rate3">3 stars</label>
+
+            <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+            <label for="first-rate4">4 stars</label>
+
+            <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+            <label for="first-rate5">5 stars</label>
+
+          </fieldset>
+
+        </div>
+
+        <div class="mb-3">
+
+          <label class="form-label">Comments</label>
+
+          <textarea name="review[comment]" cols="30" rows="4" class="form-control" required></textarea>
+
+          <div class="invalid-feedback">
+            Please submit a review
+          </div>
+
+        </div>
+
+        <button class="btn btn-dark">
+          Submit Review
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <% } %>
+
+  <hr class="my-5 text-white">
+
+  <!-- REVIEWS SECTION -->
+
+  <h4 class="mb-4 text-center text-white">All Reviews</h4>
+
+  <div class="reviews-container">
+
+    <% for(review of listing.reviews){ %>
+
+      <div class="card review-card shadow-sm">
+
+        <div class="card-body">
+
+          <h6 class="card-title fw-bold">
+            @<%= review.author.username %>
+          </h6>
+
+          <p class="starability-result" data-rating="<%= review.rating %>"></p>
+
+          <p class="card-text">
+            <%= review.comment %>
+          </p>
+
+          <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id%>?_method=DELETE">
+
+            <button class="btn btn-sm btn-outline-danger">
+              Delete
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    <% } %>
+
+  </div>
+
+</div>
+
+</div>
+
+<script>
+  const lat = "<%= listing.latitude %>";
+  const lng = "<%= listing.longitude %>";
+</script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="/js/map.js"></script>
+
+<script>
+async function bookNow() {
+  console.log("clicked");
+
+  const name = document.querySelector('input[name="name"]').value;
+  const phone = document.querySelector('input[name="phone"]').value;
+  const message = document.querySelector('textarea[name="message"]').value;
+
+  const listingId = "<%= listing._id %>";
+
+  const res = await fetch("/bookings/create-order", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ listingId })
+  });
+
+  const data = await res.json();
+
+  const options = {
+    key: "rzp_test_SZ7u4btFEA61V6",
+    amount: data.amount,
+    currency: "INR",
+    name: "BookMyStay",
+    description: "Room Booking",
+    order_id: data.id,
+
+    handler: async function (response) {
+
+      const verifyRes = await fetch("/bookings/verify-payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          ...response,
+          listingId,
+          name,
+          phone,
+          message
+        })
+      });
+
+      const result = await verifyRes.json();
+
+      if (result.success) {
+        alert("Booking Confirmed 🎉");
+        window.location.href = "/dashboard";
+      } else {
+        alert("Payment Failed ❌");
+      }
+    }
+  };
+
+  const rzp = new Razorpay(options);
+  rzp.open();
+}
+</script>

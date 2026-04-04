@@ -1,0 +1,106 @@
+<!-- <nav class="navbar navbar-expand-md bg-body-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/"><img src="/css/images/bookmystay.png" alt="BookMyStay" height="40"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link"  href="/">Home</a>
+        <a class="nav-link" href="/listings">All Listings</a>
+        <a class="nav-link" href="/listings/new">Add New Listings</a>
+      </div> -->
+
+       <!-- Search Bar -->
+      <!-- <form class="d-flex mx-auto" role="search" action="/listings/search" method="GET">
+        <input 
+          class="form-control me-2"
+          type="search"
+          name="q"
+          placeholder="Search destination"
+          aria-label="Search"
+        >
+        <button class="btn btn-outline-dark" type="submit">
+          Search
+        </button>
+      </form>
+
+      
+        <div class="navbar-nav ms-auto">
+          <% if(!currUser) { %>
+        <a class="nav-link"  href="/signup">Sign Up</a>
+        <a class="nav-link" href="/login">Log in</a>
+        <% } %>
+        <% if(currUser) { %>
+        <a class="nav-link" href="/logout">Log out</a>
+         <% } %>
+      </div>
+    </div>
+  </div>
+</nav> -->
+
+
+
+
+
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky-top">
+  <div class="container">
+
+    <!-- Logo -->
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="/">
+      <img src="/css/images/bookmystay.png" alt="BookMyStay" height="40" class="me-2">
+    </a>
+
+    <!-- Mobile Button -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+      <!-- Left Links -->
+      <div class="navbar-nav">
+        <a class="nav-link fw-semibold" href="/listings">🏠Home</a>
+        <a class="nav-link fw-semibold" href="/listings/new">Add New Listings</a>
+      </div>
+
+      <!-- Search Bar
+      <form class="d-flex mx-auto search-box" role="search" action="/listings/search" method="GET">
+        <input 
+          class="form-control me-2 rounded-pill"
+          type="search"
+          name="q"
+          placeholder="Search destination"
+          aria-label="Search"
+        >
+        <button class="btn btn-dark rounded-pill px-3" type="submit">
+          Sear
+        </button>
+      </form> -->
+
+      <!-- Right Links -->
+      <div class="navbar-nav ms-auto">
+          <% if(currUser) { %>
+          <a class="nav-link" href="/dashboard">🙍🏻‍♂️Dashboard</a> 
+          <% } %>
+
+
+           <% if(!currUser) { %>
+            <a class="nav-link" href="/signup">Sign Up</a>
+          <a class="nav-link" href="/login">Log in</a>
+          <% } %>
+
+            <% if(currUser) { %>
+            <a class="nav-link" href="/logout">Log out</a>
+         <% } %>
+
+  <button id="theme-toggle" class="btn btn-outline-dark ms-3">
+    🌙
+  </button>
+
+</div>
+
+    </div>
+  </div>
+</nav>

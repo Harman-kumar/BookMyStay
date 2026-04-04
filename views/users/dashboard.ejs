@@ -1,0 +1,150 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="dashboard-wrapper">
+
+```
+<!-- HEADER -->
+<div class="dash-header">
+    <div>
+        <h2>Welcome, <%= currUser.username %> 👋</h2>
+        <p>Manage your properties and track activity</p>
+    </div>
+
+    <a href="/listings/new" class="btn btn-dark add-btn">
+        + Add Property
+    </a>
+</div>
+
+<!-- notification -->
+<% if(bookings.length > 0){ %>
+
+<div id="bookingAlert" class="alert alert-warning shadow-sm">
+
+🔔 You have <b><%= bookings.length %></b> booking request(s)
+
+</div>
+
+<script>
+
+setTimeout(function(){
+
+document.getElementById("bookingAlert").style.display="none";
+
+},5000);
+
+</script>
+
+<% } %>
+
+<!-- STATS -->
+<div class="dash-stats">
+
+    <div class="dash-card">
+        <h5>Total Listings</h5>
+        <h2><%= listings.length %></h2>
+    </div>
+
+    <div class="dash-card">
+        <h5>Total Reviews</h5>
+        <h2><%= totalReviews %></h2>
+    </div>
+
+    <div class="dash-card">
+        <h5>Bookings</h5>
+        <h2><%= bookings.length %></h2>    </div>
+
+</div>
+
+<!-- booking -->
+
+<h3 class="mt-5">Booking Requests</h3>
+
+<% if(bookings.length === 0){ %>
+
+<p>No booking requests yet</p>
+
+<% } %>
+
+<% bookings.forEach(b => { %>
+
+<div class="card p-3 mb-3">
+
+<h5><%= b.listing.title %></h5>
+
+<p><b>Name:</b> <%= b.name %></p>
+
+<p><b>Phone:</b> <%= b.phone %></p>
+
+<p><b>Message:</b> <%= b.message %></p>
+
+<form action="/bookings/<%= b._id %>?_method=DELETE" method="POST">
+
+<button class="btn btn-sm btn-danger">
+Delete
+</button>
+
+</form>
+
+</div>
+<% }) %>
+
+
+
+<!-- LISTINGS -->
+<h3 class="dash-title">Your Properties</h3>
+
+<div class="property-grid">
+
+    <% listings.forEach(listing => { %>
+
+    <div class="property-card">
+
+        <img src="<%= listing.image.url %>" alt="property">
+
+        <div class="property-info">
+
+            <h5><%= listing.title %></h5>
+
+            <p class="location">
+                📍 <%= listing.location %>
+            </p>
+
+            <div class="property-actions">
+
+                <a href="/listings/<%= listing._id %>" class="btn btn-outline-dark btn-sm">
+                    View
+                </a>
+
+                <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark btn-sm">
+                    Edit
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <% }) %>
+
+</div>
+
+
+<% if(listings.length === 0){ %>
+
+<div class="empty-state">
+
+    <h4>No listings yet</h4>
+    <p>Create your first property listing</p>
+
+    <a href="/listings/new" class="btn btn-dark">
+        Add Listing
+    </a>
+
+</div>
+
+<% } %>
+```
+
+</div>
+
