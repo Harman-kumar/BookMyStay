@@ -14,7 +14,7 @@
    <link rel="stylesheet" href="/css/rating.css">
    
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
+ <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
   </head>
 <body>
    <%- include("../includes/navbar.ejs") %>
@@ -46,6 +46,15 @@ toggle.addEventListener("click", () => {
 </script>
 <!-- map -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script type="module">
+
+	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+	createChat({
+		webhookUrl: 'https://jpkumar.app.n8n.cloud/webhook/6eeba211-daeb-40fe-b436-bbfc3ab459a0/chat'
+	});
+</script>
 
 </body>
 </html>
